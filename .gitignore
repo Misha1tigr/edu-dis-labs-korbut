@@ -111,3 +111,4 @@ utils/table-generator/activities.md
 
 # IDE
 .idea/
+**/__pycache__/
