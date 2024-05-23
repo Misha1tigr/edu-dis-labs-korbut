@@ -108,3 +108,6 @@ utils/table-generator/tables/
 utils/table-generator/tables.md
 utils/table-generator/activities/
 utils/table-generator/activities.md
+
+# IDE
+.idea/

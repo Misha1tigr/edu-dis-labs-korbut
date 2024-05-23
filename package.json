@@ -3,8 +3,8 @@
   "version": "2.1.0",
   "main": "index.js",
   "description": "Databases course work template",
-  "repository": "http://139.162.162.130:3000/hasslesstech/edu-dis-labs",
-  "author": "Andrey Boldak <boldak.andrey@gmail.com>",
+  "repository": "http://github.com/Misha1tigr/edu-dis-labs-korbut.git",
+  "author": "Korbut Mykhailo <korbutmykhailo@gmail.com>",
   "license": "ECL 2.0",
   "scripts": {
     "test": "jest",
