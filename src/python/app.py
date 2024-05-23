@@ -128,7 +128,7 @@ def delete_link(id):
         cursor.close()
         conn.close()
         if cursor.rowcount == 0:
-           return jsonify({"error": f"Помилка відилення: Такого посилання не існує"}), 404
+           return jsonify({"error": f"Помилка видалення: Такого посилання не існує"}), 404
         else:
             return jsonify({"success": f"Посилання з ID {id} успішно видалено"}), 200
     except Error as e:

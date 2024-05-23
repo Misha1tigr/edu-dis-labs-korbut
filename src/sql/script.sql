@@ -32,14 +32,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Survey` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `isPaused` TINYINT UNSIGNED NOT NULL,
-  `isNamed` TINYINT UNSIGNED NOT NULL,
+  `isPaused` TINYINT NOT NULL,
+  `isNamed` TINYINT NOT NULL,
   `name` CHAR(255) NULL,
   `duration` CHAR(255) NULL,
+  `Account_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_Survey_Account1_idx` (`Account_id` ASC) VISIBLE,
   CONSTRAINT `fk_Survey_Account1`
-    FOREIGN KEY (`id`)
+    FOREIGN KEY (`Account_id`)
     REFERENCES `mydb`.`Account` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -52,10 +54,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`Question` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Text` CHAR(255) NULL,
+  `Survey_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_Question_Survey1_idx` (`Survey_id` ASC) VISIBLE,
   CONSTRAINT `fk_Question_Survey1`
-    FOREIGN KEY (`id`)
+    FOREIGN KEY (`Survey_id`)
     REFERENCES `mydb`.`Survey` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -66,18 +70,22 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Response`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Response` (
-  `id` INT UNSIGNED NULL AUTO_INCREMENT,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Value` VARCHAR(16384) NULL,
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  `Account_id` INT UNSIGNED NULL,
+  `Question_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `fk_Response_Question`
-    FOREIGN KEY (`id`)
-    REFERENCES `mydb`.`Question` (`id`)
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_Response_Account_idx` (`Account_id` ASC) VISIBLE,
+  INDEX `fk_Response_Question1_idx` (`Question_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Response_Account`
+    FOREIGN KEY (`Account_id`)
+    REFERENCES `mydb`.`Account` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Response_Account1`
-    FOREIGN KEY (`id`)
-    REFERENCES `mydb`.`Account` (`id`)
+  CONSTRAINT `fk_Response_Question1`
+    FOREIGN KEY (`Question_id`)
+    REFERENCES `mydb`.`Question` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -88,14 +96,17 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Link` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `uses` INT NOT NULL,
-  `responces` INT NOT NULL,
+  `uses` INT NULL,
+  `responces` INT NULL,
   `usageLimit` INT NULL,
   `responceLimit` INT NULL,
   `path` CHAR(32) NOT NULL,
+  `Survey_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_Link_Survey1_idx` (`Survey_id` ASC) VISIBLE,
   CONSTRAINT `fk_Link_Survey1`
-    FOREIGN KEY (`id`)
+    FOREIGN KEY (`Survey_id`)
     REFERENCES `mydb`.`Survey` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
